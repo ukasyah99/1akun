@@ -1,0 +1,45 @@
+:focus {
+  -webkit-tap-highlight-color: transparent;
+}
+
+option {
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.icon_stroke_2 path {
+  stroke-width: 2 !important;
+}
+
+.icon_stroke_1\.75 path {
+  stroke-width: 1.75 !important;
+}
+
+.icon_stroke_1\.5 path {
+  stroke-width: 1.5 !important;
+}
+
+.icon_stroke_1\.25 path {
+  stroke-width: 1.25 !important;
+}
+
+/* Set filled track color of CircularProgress */
+.chakra-progress__indicator {
+  stroke: #6B46C1 !important;
+}
+
+/* .chakra-portal {
+  overflow: hidden !important;
+} */
+
+/* .chakra-modal__content-container {
+  overflow: hidden !important;
+} */
+
+/* .chakra-modal__content {
+  overflow: hidden !important;
+}
+
+.chakra-modal__body {
+  overflow: hidden !important;
+} */

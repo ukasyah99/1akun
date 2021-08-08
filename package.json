@@ -1,15 +1,44 @@
 {
-  "name": "nextjs",
-  "version": "0.1.0",
+  "name": "1akun",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "db:init": "knex migrate:rollback --all && knex migrate:latest && knex seed:run",
+    "dev": "next dev --port=3456",
     "build": "next build",
-    "start": "next start"
+    "start": "next start --port=3456",
+    "lint": "next lint"
   },
   "dependencies": {
-    "next": "10.x",
-    "react": "17.x",
-    "react-dom": "17.x"
+    "@chakra-ui/react": "^1.6.5",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@fontsource/nunito-sans": "^4.5.0",
+    "@heroicons/react": "^1.0.3",
+    "@reduxjs/toolkit": "^1.6.1",
+    "argon2": "^0.28.2",
+    "axios": "^0.21.1",
+    "axios-auth-refresh": "^3.1.0",
+    "bull": "^3.27.0",
+    "dayjs": "^1.10.6",
+    "faker": "^5.5.3",
+    "formik": "^2.2.9",
+    "framer-motion": "^4",
+    "js-cookie": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.8",
+    "nanoid": "^3.1.23",
+    "next": "11.0.1",
+    "nodemailer": "^6.6.3",
+    "query-string": "^7.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-redux": "^7.2.4",
+    "sqlite3": "^5.0.2",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "eslint": "7.31.0",
+    "eslint-config-next": "11.0.1"
   }
 }
