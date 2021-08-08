@@ -1,6 +1,6 @@
 {
   "name": "1akun",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "db:init": "knex migrate:rollback --all && knex migrate:latest && knex seed:run",
