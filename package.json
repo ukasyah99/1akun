@@ -1,6 +1,6 @@
 {
   "name": "1akun",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "scripts": {
     "db:init": "knex migrate:rollback --all && knex migrate:latest && knex seed:run",
@@ -27,6 +27,7 @@
     "js-cookie": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.8",
+    "mysql": "^2.18.1",
     "nanoid": "^3.1.23",
     "next": "11.0.1",
     "nodemailer": "^6.6.3",
@@ -34,11 +35,11 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "^7.2.4",
-    "sqlite3": "^5.0.2",
     "yup": "^0.32.9"
   },
   "devDependencies": {
     "eslint": "7.31.0",
-    "eslint-config-next": "11.0.1"
+    "eslint-config-next": "11.0.1",
+    "sqlite3": "^5.0.2"
   }
 }
