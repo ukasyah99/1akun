@@ -34,15 +34,15 @@ const AuthLayout = ({
           justifyContent="center"
           transition="opacity .25s ease"
           opacity={ready ? 1 : 0}
+          px="5"
         >
-          <Box h="10" />
+          <Box h="5" />
           <Box
             w={{ base: "full", sm: "sm" }}
             rounded="lg"
             bg="white"
-            px={{ base: "7", sm: "12" }}
-            py={{ base: "7", sm: "10" }}
-            mx={{ base: "0", sm: "5" }}
+            px="8"
+            py="6"
           >
             <Text fontSize="2xl" fontWeight="extrabold" textAlign="center">
               {title}
@@ -52,7 +52,7 @@ const AuthLayout = ({
             </Text>
             {children}
           </Box>
-          <Box h="10" />
+          <Box h="5" />
         </Stack>
       </Box>
     </ProtectedView>

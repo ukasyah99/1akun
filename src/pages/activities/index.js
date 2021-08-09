@@ -1,5 +1,7 @@
 import { Box, Button, CircularProgress, FormControl, FormLabel, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalContent, ModalOverlay, Select, SimpleGrid, Stack, Table, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react"
 import { FilterIcon, SearchIcon, XIcon } from "@heroicons/react/outline"
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
 import { useFormik } from "formik"
 import debounce from "lodash/debounce"
 import queryString from "query-string"
@@ -8,6 +10,8 @@ import { unstable_batchedUpdates } from "react-dom"
 import { useSelector } from "react-redux"
 import { MainLayout, Pagination } from "src/client/components"
 import { apiClient, sleep } from "src/client/lib"
+
+dayjs.extend(utc)
 
 const perPage = 15
 
@@ -170,7 +174,7 @@ const Activities = () => {
                       {item.description}
                     </Td>
                     <Td cursor="pointer" _groupHover={{ bg: "gray.100" }} onClick={() => handleDetailModalOpen(item)}>
-                      {item.done_at}
+                      {dayjs.utc(item.done_at).format("MMM D, YYYY hh:mm A")}
                     </Td>
                   </Tr>
                 ))}
@@ -258,7 +262,7 @@ const Activities = () => {
               </Box><Box>
                 <Text color="gray.600" fontSize="xs" fontWeight="bold" textTransform="uppercase">Done at</Text>
                 <Box h="1" />
-                <Text>{selectedItem && selectedItem.done_at}</Text>
+                <Text>{selectedItem && dayjs.utc(selectedItem.done_at).format("MMM D, YYYY hh:mm A")}</Text>
               </Box>
             </SimpleGrid>
           </ModalBody>

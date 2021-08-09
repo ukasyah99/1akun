@@ -1,5 +1,7 @@
 import { Badge, Box, Button, CircularProgress, Flex, FormControl, FormHelperText, FormLabel, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalContent, ModalOverlay, Select, SimpleGrid, Stack, Table, Tbody, Td, Text, Th, Thead, Tr, useDisclosure, useToast } from "@chakra-ui/react"
 import { DotsHorizontalIcon, FilterIcon, MailIcon, PencilIcon, PlusIcon, SearchIcon, TrashIcon, XIcon } from "@heroicons/react/outline"
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
 import { useFormik } from "formik"
 import debounce from "lodash/debounce"
 import queryString from "query-string"
@@ -7,6 +9,8 @@ import { useEffect, useState } from "react"
 import { unstable_batchedUpdates } from "react-dom"
 import { InviteUsersModal, MainLayout, Pagination, RolePicker } from "src/client/components"
 import { apiClient, sleep } from "src/client/lib"
+
+dayjs.extend(utc)
 
 const perPage = 15
 
@@ -562,12 +566,12 @@ const Users = () => {
               <Box>
                 <Text color="gray.600" fontSize="xs" fontWeight="bold" textTransform="uppercase">Joined at</Text>
                 <Box h="1" />
-                <Text>{selectedItem && selectedItem.created_at}</Text>
+                <Text>{selectedItem && dayjs.utc(selectedItem.created_at).format("MMM D, YYYY hh:mm A")}</Text>
               </Box>
               <Box>
                 <Text color="gray.600" fontSize="xs" fontWeight="bold" textTransform="uppercase">Updated at</Text>
                 <Box h="1" />
-                <Text>{selectedItem && selectedItem.updated_at}</Text>
+                <Text>{selectedItem && dayjs.utc(selectedItem.updated_at).format("MMM D, YYYY hh:mm A")}</Text>
               </Box>
             </SimpleGrid>
           </ModalBody>

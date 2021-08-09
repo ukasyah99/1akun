@@ -1,5 +1,7 @@
 import { Badge, Box, Button, FormControl, FormHelperText, FormLabel, HStack, Icon, Input, Modal, ModalBody, ModalContent, ModalOverlay, SimpleGrid, Text, useDisclosure, useToast } from "@chakra-ui/react"
 import { PencilIcon } from "@heroicons/react/outline"
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
 import { useFormik } from "formik"
 import { useEffect } from "react"
 import { unstable_batchedUpdates } from "react-dom"
@@ -8,6 +10,8 @@ import { MainLayout } from "src/client/components"
 import { apiClient, sleep } from "src/client/lib"
 import { setAuth } from "src/client/redux"
 import * as yup from "yup"
+
+dayjs.extend(utc)
 
 const initialEditFormikValues = {
   name: "",
@@ -103,12 +107,12 @@ const MyProfile = () => {
         <Box>
           <Text color="gray.600" fontSize="xs" fontWeight="bold" textTransform="uppercase">Joined at</Text>
           <Box h="1" />
-          <Text>{user.created_at}</Text>
+          <Text>{dayjs.utc(user.created_at).format("MMM D, YYYY hh:mm A")}</Text>
         </Box>
         <Box>
           <Text color="gray.600" fontSize="xs" fontWeight="bold" textTransform="uppercase">Updated at</Text>
           <Box h="1" />
-          <Text>{user.updated_at}</Text>
+          <Text>{dayjs.utc(user.updated_at).format("MMM D, YYYY hh:mm A")}</Text>
         </Box>
       </SimpleGrid>
       <Modal
