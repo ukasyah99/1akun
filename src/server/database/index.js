@@ -6,7 +6,7 @@ let connection
 
 export const getDatabaseConnection = () => {
   if (!connection) {
-    connection = knex(knexfile.development)
+    connection = knex(process.env.NODE_ENV === "production" ? knexfile.production : knexfile.development)
   }
 
   return connection
