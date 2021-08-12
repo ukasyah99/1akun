@@ -1,5 +1,5 @@
 import { getDatabaseConnection } from "src/server/database"
-import { authorize } from "src/server/middlewares"
+import { authorize, cors } from "src/server/middlewares"
 
 const handler = async (req, res) => {
   const db = getDatabaseConnection()
@@ -21,4 +21,4 @@ const handler = async (req, res) => {
   return res.json(user)
 }
 
-export default authorize(handler)
+export default cors(authorize(handler))

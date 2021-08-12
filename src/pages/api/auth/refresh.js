@@ -1,5 +1,6 @@
 import { getDatabaseConnection } from "src/server/database"
 import { generateJWT } from "src/server/lib"
+import { cors } from "src/server/middlewares"
 
 const handler = async (req, res) => {
   const db = getDatabaseConnection()
@@ -23,4 +24,4 @@ const handler = async (req, res) => {
   })
 }
 
-export default handler
+export default cors(handler)
