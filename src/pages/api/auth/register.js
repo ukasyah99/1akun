@@ -52,12 +52,14 @@ const handler = async (req, res) => {
 
   const token = generateJWT({ uid: userID }, "verify email", 30 * 60)
 
-  emailQueue.add({
-    from: "system@user-manager.com",
-    to: data.email,
-    subject: "Verify your email address",
-    html: getEmailHtml(token),
-  })
+  try {
+    emailQueue.add("register", {
+      from: "system@user-manager.com",
+      to: data.email,
+      subject: "Verify your email address",
+      html: getEmailHtml(token),
+    })
+  } catch (error) {}
 
   return res.json({ message: "Link has been sent. Check your inbox." })
 }

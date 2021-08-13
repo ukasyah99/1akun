@@ -57,11 +57,13 @@ const handler = async (req, res) => {
     }
 
     // Add to activity log
-    activityLogQueue.add({
-      user_id: req.auth.uid,
-      description: `create user ${req.body.name}`,
-      done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-    })
+    try {
+      activityLogQueue.add("create-user", {
+        user_id: req.auth.uid,
+        description: `create user ${req.body.name}`,
+        done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      })
+    } catch (error) { }
 
     return res.json(data)
   }

@@ -23,10 +23,6 @@ const refreshAuthLogic = async (failedRequest) => {
   } catch (error) {}
 
   const accessToken = response.data.access_token
-  console.log("====================================")
-  console.log("ACCESS TOKEN:")
-  console.log(accessToken)
-  console.log("====================================")
   setAccessToken(accessToken)
   failedRequest.response.config.headers['Authorization'] = `Bearer ${accessToken}`
 

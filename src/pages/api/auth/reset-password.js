@@ -22,11 +22,13 @@ const handler = async (req, res) => {
   }
 
   // Add to activity log
-  activityLogQueue.add({
-    user_id: payload.uid,
-    description: "reset his/her password",
-    done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-  })
+  try {
+    activityLogQueue.add("reset-password", {
+      user_id: payload.uid,
+      description: "reset his/her password",
+      done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    })
+  } catch (error) { }
 
   res.json({ message: "Password updated" })
 }

@@ -68,15 +68,15 @@ const handler = async (req, res) => {
         html: getEmailHtml(token),
       })
     }
-  } catch (error) {
-    return res.status(500).json({ error: "Failed to invite users." })
-  }
+  } catch (error) { }
 
-  activityLogQueue.add({
-    user_id: req.auth.uid,
-    description: `invited ${userIDs.length} users as ${role.name}`,
-    done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-  })
+  try {
+    activityLogQueue.add("invite", {
+      user_id: req.auth.uid,
+      description: `invited ${userIDs.length} users as ${role.name}`,
+      done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    })
+  } catch (error) { }
 
   return res.json({ message: "All users have been invited." })
 }

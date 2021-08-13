@@ -31,11 +31,13 @@ const handler = async (req, res) => {
     }
 
     // Add to activity log
-    activityLogQueue.add({
-      user_id: req.auth.uid,
-      description: `updated role ${req.body.name}`,
-      done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-    })
+    try {
+      activityLogQueue.add("update-role", {
+        user_id: req.auth.uid,
+        description: `updated role ${req.body.name}`,
+        done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      })
+    } catch (error) { }
 
     return res.json(data)
   }
@@ -50,10 +52,12 @@ const handler = async (req, res) => {
       return res.status(500).json({ error: "Failed to delete data" })
     }
 
-    activityLogQueue.add({
-      user_id: req.auth.uid,
-      description: `deleted role ${data.name}`,
-    })
+    try {
+      activityLogQueue.add("delete-role", {
+        user_id: req.auth.uid,
+        description: `deleted role ${data.name}`,
+      })
+    } catch (error) { }
 
     return res.json(data)
   }

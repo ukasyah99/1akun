@@ -1,4 +1,4 @@
-import Queue from "bull"
+import { Queue, Worker } from "bullmq"
 import nodemailer from "nodemailer"
 import { REDIS_HOST, REDIS_PASSWORD, REDIS_PORT } from "src/config"
 import { getEmailTransporter } from "src/server/email"
@@ -7,36 +7,28 @@ let emailQueue
 
 export const getEmailQueue = () => {
   if (!emailQueue) {
-    try {
-      emailQueue = new Queue("email sending", {
-        redis: {
-          host: REDIS_HOST,
-          port: REDIS_PORT,
-          password: REDIS_PASSWORD,
-        },
-      })
-      
-      emailQueue.process(function (job) {
-        const sendEmail = async () => {
-          const transporter = await getEmailTransporter()
-  
-          let info
-          try {
-            info = await transporter.sendMail(job.data)
-          } catch (error) {
-            console.log(error)
-          }
-  
-          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
-        }
-      
-        return sendEmail()
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+    emailQueue = new Queue("email-sending", {
+      connection: {
+        host: REDIS_HOST,
+        port: REDIS_PORT,
+        password: REDIS_PASSWORD,
+      },
+    })
 
+    const worker = new Worker("email-sending", async job => {
+      const transporter = await getEmailTransporter()
+      const info = await transporter.sendMail(job.data)
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
+    })
+
+    worker.on('completed', (job) => {
+      console.log(`${job.id} has completed!`)
+    })
+
+    worker.on('failed', (job, err) => {
+      console.log(`${job.id} has failed with ${err.message}`)
+    })
+  }
 
   return emailQueue
 }

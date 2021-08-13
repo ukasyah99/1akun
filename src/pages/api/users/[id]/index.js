@@ -69,13 +69,13 @@ const handler = async (req, res) => {
 
     // Current user updated his own profile
     if (req.userID === id) {
-      activityLogQueue.add({
+      activityLogQueue.add("update-user", {
         user_id: req.auth.uid,
         description: "updated his/her profile",
         done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       })
     } else {
-      activityLogQueue.add({
+      activityLogQueue.add("update-user", {
         user_id: req.auth.uid,
         description: `updated user ${data.name}`,
         done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
@@ -104,10 +104,12 @@ const handler = async (req, res) => {
       return res.status(500).json({ error: "Failed to delete data" })
     }
 
-    activityLogQueue.add({
-      user_id: req.auth.uid,
-      description: `deleted user ${data.name}`,
-    })
+    try {
+      activityLogQueue.add("delete-user", {
+        user_id: req.auth.uid,
+        description: `deleted user ${data.name}`,
+      })
+    } catch (error) { }
 
     return res.json(data)
   }

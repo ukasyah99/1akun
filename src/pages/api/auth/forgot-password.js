@@ -1,5 +1,6 @@
 import { BASE_URL } from "src/config"
 import { getDatabaseConnection } from "src/server/database"
+import { generateJWT } from "src/server/lib"
 import { getEmailQueue } from "src/server/queue"
 
 const getEmailHtml = (token) => {
@@ -36,12 +37,14 @@ const handler = async (req, res) => {
 
   const token = generateJWT({ uid: user.id }, "reset password")
 
-  emailQueue.add({
-    from: "system@user-manager.com",
-    to: data.email,
-    subject: "Reset password request",
-    html: getEmailHtml(token),
-  })
+  try {
+    emailQueue.add("forgot-password", {
+      from: "system@user-manager.com",
+      to: data.email,
+      subject: "Reset password request",
+      html: getEmailHtml(token),
+    })
+  } catch (error) { }
 
   res.json({ message: "Link has been sent. Check your inbox." })
 }

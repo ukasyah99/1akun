@@ -48,15 +48,18 @@ const handler = async (req, res) => {
       const [insertID] = await db("roles").insert(req.body)
       data = await db("roles").select("*").where("id", insertID).first()
     } catch (error) {
+      console.log(error)
       return res.status(500).json({ error: "Failed to create data" })
     }
 
     // Add to activity log
-    activityLogQueue.add({
-      user_id: req.auth.uid,
-      description: `created role ${req.body.name}`,
-      done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-    })
+    try {
+      activityLogQueue.add("create-role", {
+        user_id: req.auth.uid,
+        description: `created role ${req.body.name}`,
+        done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      })
+    } catch (error) { }
 
     return res.json(data)
   }

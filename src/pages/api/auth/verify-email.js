@@ -27,7 +27,7 @@ const handler = async (req, res) => {
       .join("roles", "roles.id", "users.role_id")
       .where("users.id", payload.uid).first()
     if (!user) throw new Error("User not found")
-    activityLogQueue.add({
+    activityLogQueue.add("verify-email", {
       user_id: payload.uid,
       description: `registered him/herself as ${user.role_name}`,
       done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
