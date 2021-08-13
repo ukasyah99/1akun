@@ -67,20 +67,22 @@ const handler = async (req, res) => {
       return res.status(500).json({ error: "Failed to update data" })
     }
 
-    // Current user updated his own profile
-    if (req.userID === id) {
-      activityLogQueue.add("update-user", {
-        user_id: req.auth.uid,
-        description: "updated his/her profile",
-        done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-      })
-    } else {
-      activityLogQueue.add("update-user", {
-        user_id: req.auth.uid,
-        description: `updated user ${data.name}`,
-        done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-      })
-    }
+    try {
+      // Current user updated his own profile
+      if (req.userID === id) {
+        activityLogQueue.add("update-user", {
+          user_id: req.auth.uid,
+          description: "updated his/her profile",
+          done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        })
+      } else {
+        activityLogQueue.add("update-user", {
+          user_id: req.auth.uid,
+          description: `updated user ${data.name}`,
+          done_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        })
+      }
+    } catch (error) { }
 
     return res.json(result)
   }
